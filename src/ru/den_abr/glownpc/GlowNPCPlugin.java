@@ -13,7 +13,8 @@ import net.glowstone.net.message.play.game.UserListItemMessage;
 public class GlowNPCPlugin extends JavaPlugin {
 
     @Override
-    public void onEnable() {
+    public void onLoad() {
+        getLogger().info("Registering custom NPC descriptor");
         EntityRegistry.registerCustomEntity(new NPCEntityDescriptor(this));
     }
 
@@ -27,7 +28,7 @@ public class GlowNPCPlugin extends JavaPlugin {
         String name = args[0];
         PlayerProfile profile = PlayerProfile.getProfile(name);
         GlowNPC npc = new GlowNPC(player.getLocation(), profile);
-        // wait when client loads skin and cape and send packet to remove name
+        // wait when client loads skin and cape then send packet to remove name
         // from player list
         getServer().getScheduler().runTaskLater(this, () -> {
             GlowWorld world = (GlowWorld) player.getWorld();
@@ -35,6 +36,8 @@ public class GlowNPCPlugin extends JavaPlugin {
             world.getRawPlayers().forEach(rawPlayer -> rawPlayer.getSession().send(removeMessage));
         }, 20L);
         player.sendMessage("NPC " + profile.getName() + " spawned. ID=" + npc.getEntityId());
+
         return true;
     }
+
 }
