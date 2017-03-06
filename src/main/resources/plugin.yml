@@ -1,0 +1,7 @@
+name: GlowNPCs
+main: ru.den_abr.glownpc.GlowNPCPlugin
+author: Den_Abr
+version: 1.0
+load: STARTUP
+commands:
+    glownpc:
